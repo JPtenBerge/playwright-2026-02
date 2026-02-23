@@ -2,35 +2,30 @@ import { expect } from '@playwright/test';
 import { test } from './fixtures/bami.fixture';
 
 test('recept vinden', async ({ page }) => {
+	await page.goto('https://www.bami.nl/');
 
-    await page.goto('https://www.bami.nl/');
+	await page.getByPlaceholder('bijv.: Pesto, Chili con Carne').fill('pesto');
+	// await page.getByPlaceholder('bijv.: Pesto, Chili con Carne').press('Enter');
+	await page.getByRole('form').getByRole('button').click();
+	await page.getByText('Pestokip uit de oven').click();
 
-    await page.getByPlaceholder('bijv.: Pesto, Chili con Carne').fill('pesto');
-    // await page.getByPlaceholder('bijv.: Pesto, Chili con Carne').press('Enter');
-    await page.getByRole('form').getByRole('button').click();
-
-    await page.getByText('Pestokip uit de oven').click();
-
-    await expect(page.getByRole('heading', { name: 'Pestokip uit de oven ' })).toBeVisible();
-
+	await expect(page.getByRole('heading', { name: 'Pestokip uit de oven ' })).toBeVisible();
 });
 
 test('met po', async ({ page, bamiPO }) => {
-    await page.goto('https://www.bami.nl/');
+	await page.goto('https://www.bami.nl/');
 
-    await bamiPO.getSearchBox().fill('pesto');
-    await bamiPO.getSubmitButton().click();
-    await bamiPO.getGerechten().first().click();
+	await bamiPO.getSearchBox().fill('pesto');
+	await bamiPO.getSubmitButton().click();
+	await bamiPO.getGerechten().first().click();
 
-    await expect(bamiPO.getTitle('Pestokip uit de oven')).toBeVisible();
+	await expect(bamiPO.getTitle('Pestokip uit de oven')).toBeVisible();
 });
 
 test('recept vinden 2', async ({ page }) => {
-
-    await page.goto('https://www.bami.nl/');
-    await page.getByRole('textbox', { name: 'bijv.: Pesto, Chili con Carne' }).fill('pesto');
-    await page.getByRole('button').click();
-    await page.getByRole('link', { name: 'Pesto Italiaans saus met' }).click();
-    await expect(page.locator('h1')).toContainText('Pesto');
+	await page.goto('https://www.bami.nl/');
+	await page.getByRole('textbox', { name: 'bijv.: Pesto, Chili con Carne' }).fill('pesto');
+	await page.getByRole('button').click();
+	await page.getByRole('link', { name: 'Pesto Italiaans saus met' }).click();
+	await expect(page.locator('h1')).toContainText('Pesto');
 });
-
