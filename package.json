@@ -1,0 +1,16 @@
+{
+  "name": "playwright-2026-02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.26.2",
+  "dependencies": {
+    "@infosupport/e2e-testing-demo": "^0.1.0"
+  }
+}
