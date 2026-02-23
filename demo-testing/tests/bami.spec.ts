@@ -15,7 +15,7 @@ test('recept vinden', async ({ page }) => {
 
 });
 
-test('recept vinden', async ({ page }) => {
+test('recept vinden 2', async ({ page }) => {
 
     await page.goto('https://www.bami.nl/');
     await page.getByRole('textbox', { name: 'bijv.: Pesto, Chili con Carne' }).fill('pesto');
