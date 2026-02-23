@@ -23,15 +23,17 @@ test('interval', async ({ page }) => {
 });
 
 test('intercepting requests with mock data', async ({ page }) => {
-	await page.route('http://localhost:4200/api/products', async req => {
-		await req.fulfill({
-			status: 200,
-			contentType: 'application/json',
-			body: JSON.stringify([
-				{ id: 14, description: 'Telefoon', price: 1419 },
-				{ id: 28, description: 'Muis', price: 12 },
-			]),
-		});
+	await page.route('http://localhost:4200/api/products', async (req, options) => {
+		return options.method() === 'DELETE'
+			? await req.continue()
+			: await req.fulfill({
+					status: 200,
+					contentType: 'application/json',
+					body: JSON.stringify([
+						{ id: 14, description: 'Telefoon', price: 1419 },
+						{ id: 28, description: 'Muis', price: 12 },
+					]),
+				});
 	});
 
 	await page.goto('http://localhost:4200/form-with-network');
@@ -46,9 +48,9 @@ test('intercepting requests with limbo', async ({ page }) => {
 	// await page.waitForTimeout(10000); ❌❌❌❌⛑️⛑️⛑️⛑️
 	// page.on('request')
 
-    await expect(page.getByRole('progressbar')).toBeVisible();
+	await expect(page.getByRole('progressbar')).toBeVisible();
 	await expect(page.getByRole('table')).not.toBeVisible();
 	await page.waitForTimeout(10000); // ❌❌❌❌⛑️⛑️⛑️⛑️
-    await expect(page.getByRole('progressbar')).toBeVisible();
+	await expect(page.getByRole('progressbar')).toBeVisible();
 	await expect(page.getByRole('table')).not.toBeVisible();
 });
